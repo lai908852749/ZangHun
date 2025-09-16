@@ -1,0 +1,5 @@
+阅读F:\AA_MyET10Project\myclaudeplan的TurnBasedCombatSystem2.0.md。
+
+
+这个路径是个ET9的项目：F:\A_YIUI_Tutorial_ET9\T_YIUI_ET9，我想将它进入游戏场景前的登陆流程迁移到本项目来。请列个计划给我。
+ultrathink

@@ -34,7 +34,8 @@
       "Bash(chmod:*)",
       "Bash(./view_analyzer_log.sh:*)",
       "Bash(bash:*)",
-      "Bash(pwsh -Command \"New-Item -ItemType Directory -Path ''Packages/cn.etetet.achievement'' -Force\")"
+      "Bash(pwsh -Command \"New-Item -ItemType Directory -Path ''Packages/cn.etetet.achievement'' -Force\")",
+      "Read(//f/A_YIUI_Tutorial_ET9/T_YIUI_ET9/**)"
     ],
     "deny": []
   }
