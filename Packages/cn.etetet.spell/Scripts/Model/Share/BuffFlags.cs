@@ -73,5 +73,8 @@ namespace ET
 
         [LabelText("被高优先级覆盖")]
         PriorityOverridden = 105,
+
+        [LabelText("互斥组替换删除")]
+        MutexGroupReplaceRemove = 106,
     }
 }

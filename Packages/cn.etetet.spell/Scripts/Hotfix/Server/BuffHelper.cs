@@ -34,6 +34,51 @@ namespace ET.Server
             BuffComponent buffComponent = buff.GetParent<BuffComponent>();
             BuffConfig buffConfig = buff.GetConfig();
 
+            // 处理互斥组逻辑
+            if (buffConfig.MutexGroup != BuffMutexGroup.None)
+            {
+                // 查找同互斥组的Buff
+                var conflictingBuffs = new List<Buff>();
+                foreach (var child in buffComponent.Children.Values)
+                {
+                    if (child is Buff existingBuff && existingBuff != buff)
+                    {
+                        BuffConfig existingConfig = existingBuff.GetConfig();
+                        if (existingConfig.MutexGroup == buffConfig.MutexGroup)
+                        {
+                            conflictingBuffs.Add(existingBuff);
+                        }
+                    }
+                }
+
+                // 如果有冲突的Buff，进行优先级比较
+                if (conflictingBuffs.Count > 0)
+                {
+                    // 查找最高优先级的冲突Buff
+                    Buff highestPriorityBuff = conflictingBuffs
+                        .OrderByDescending(b => b.GetConfig().Priority)
+                        .First();
+
+                    int highestPriority = highestPriorityBuff.GetConfig().Priority;
+                    int newBuffPriority = buffConfig.Priority;
+
+                    if (newBuffPriority > highestPriority)
+                    {
+                        // 新Buff优先级更高，移除所有同组的低优先级Buff
+                        foreach (var conflictingBuff in conflictingBuffs)
+                        {
+                            RemoveBuff(conflictingBuff, BuffFlags.MutexGroupReplaceRemove);
+                        }
+                    }
+                    else if (newBuffPriority <= highestPriority)
+                    {
+                        // 新Buff优先级不够高，拒绝添加（移除新Buff）
+                        buffComponent.RemoveBuff(buff);
+                        return null; // 返回null表示添加失败
+                    }
+                }
+            }
+
             // 处理叠加规则
             if (buffConfig.OverLayRuleType != OverLayRuleType.None)
             {

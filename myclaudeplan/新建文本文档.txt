@@ -1,5 +1,4 @@
-阅读F:\AA_MyET10Project\myclaudeplan的TurnBasedCombatSystem_Demo.md。
-
+根据F:\AA_MyET10Project\myclaudeplan的回合制技能系统测试用例计划.md开始编写第3个测试用例，可以参照测试用例规范：F:\AA_MyET10Project\myclaudeplan的测试用例编写规范.md。编写完成后执行。
 
 1.因为玩家角色只有一个，所以在怪物回合判断玩家的hp数值是否大于0就可以
 2.消息协议定义在F:\AA_MyET10Project\Packages\cn.etetet.wow\Proto
@@ -15,3 +14,7 @@ dotnet ./Bin/ET.app.dll --Process=1 --SceneName=RobotCase --StartConfig=Localhos
 CreateRobot --Num=1
 
 Case --Id=9
+
+
+● 我看到有很多 Effect 类，但可能没有对应的处理器。让我先尝试一个更简单的方法 - 不使用复杂的 EffectNode，而是创建一个基本的测试
+  Buff，不需要任何特殊效果。让我修改测试用例：

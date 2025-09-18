@@ -21,6 +21,12 @@ namespace ET.Server
 
         public const int TurnBasedCombat = 9;
 
+        public const int BuffBasicTurnBased = 10;
+
+        public const int BuffTagSystem = 11;
+
+        public const int BuffMutexGroup = 12;
+
         public const int MaxCaseType = 10000;
     }
 }
