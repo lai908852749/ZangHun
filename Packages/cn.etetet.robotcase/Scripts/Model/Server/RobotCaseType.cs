@@ -39,6 +39,8 @@ namespace ET.Server
 
         public const int HealAccumulation = 18;
 
+        public const int ComplexScenario = 19;
+
         public const int MaxCaseType = 10000;
     }
 }
