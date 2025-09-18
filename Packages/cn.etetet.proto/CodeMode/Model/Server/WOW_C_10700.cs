@@ -918,6 +918,238 @@ namespace ET
         }
     }
 
+    // ============= 回合制战斗相关消息 =============
+    [MemoryPackable]
+    [Message(Opcode.C2M_StartCombat)]
+    [ResponseType(nameof(M2C_StartCombat))]
+    public partial class C2M_StartCombat : MessageObject, ILocationRequest
+    {
+        public static C2M_StartCombat Create(bool isFromPool = false)
+        {
+            return ObjectPool.Fetch<C2M_StartCombat>(isFromPool);
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        /// <summary>
+        /// 要战斗的怪物单位ID列表
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public List<long> MonsterIds { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.MonsterIds.Clear();
+
+            ObjectPool.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(Opcode.M2C_StartCombat)]
+    public partial class M2C_StartCombat : MessageObject, ILocationResponse
+    {
+        public static M2C_StartCombat Create(bool isFromPool = false)
+        {
+            return ObjectPool.Fetch<M2C_StartCombat>(isFromPool);
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// 行动顺序（单位ID列表）
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public List<long> TurnOrder { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+            this.TurnOrder.Clear();
+
+            ObjectPool.Recycle(this);
+        }
+    }
+
+    // 玩家战斗动作（单向消息，无需响应）
+    [MemoryPackable]
+    [Message(Opcode.C2M_CombatAction)]
+    public partial class C2M_CombatAction : MessageObject, IMessage
+    {
+        public static C2M_CombatAction Create(bool isFromPool = false)
+        {
+            return ObjectPool.Fetch<C2M_CombatAction>(isFromPool);
+        }
+
+        /// <summary>
+        /// 1=攻击 2=跳过
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public int ActionType { get; set; }
+
+        /// <summary>
+        /// 目标单位ID
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public long TargetId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.ActionType = default;
+            this.TargetId = default;
+
+            ObjectPool.Recycle(this);
+        }
+    }
+
+    // 战斗回合开始通知
+    [MemoryPackable]
+    [Message(Opcode.M2C_CombatTurnStart)]
+    public partial class M2C_CombatTurnStart : MessageObject, IMessage
+    {
+        public static M2C_CombatTurnStart Create(bool isFromPool = false)
+        {
+            return ObjectPool.Fetch<M2C_CombatTurnStart>(isFromPool);
+        }
+
+        /// <summary>
+        /// 当前行动者ID
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public long ActorId { get; set; }
+
+        /// <summary>
+        /// 是否玩家回合
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public bool IsPlayerTurn { get; set; }
+
+        /// <summary>
+        /// 可攻击目标列表
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public List<long> ValidTargets { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.ActorId = default;
+            this.IsPlayerTurn = default;
+            this.ValidTargets.Clear();
+
+            ObjectPool.Recycle(this);
+        }
+    }
+
+    // 战斗动作结果
+    [MemoryPackable]
+    [Message(Opcode.M2C_CombatActionResult)]
+    public partial class M2C_CombatActionResult : MessageObject, IMessage
+    {
+        public static M2C_CombatActionResult Create(bool isFromPool = false)
+        {
+            return ObjectPool.Fetch<M2C_CombatActionResult>(isFromPool);
+        }
+
+        [MemoryPackOrder(0)]
+        public long AttackerId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public long TargetId { get; set; }
+
+        [MemoryPackOrder(2)]
+        public int Damage { get; set; }
+
+        [MemoryPackOrder(3)]
+        public int RemainHp { get; set; }
+
+        [MemoryPackOrder(4)]
+        public bool IsDead { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.AttackerId = default;
+            this.TargetId = default;
+            this.Damage = default;
+            this.RemainHp = default;
+            this.IsDead = default;
+
+            ObjectPool.Recycle(this);
+        }
+    }
+
+    // 战斗结束
+    [MemoryPackable]
+    [Message(Opcode.M2C_CombatEnd)]
+    public partial class M2C_CombatEnd : MessageObject, IMessage
+    {
+        public static M2C_CombatEnd Create(bool isFromPool = false)
+        {
+            return ObjectPool.Fetch<M2C_CombatEnd>(isFromPool);
+        }
+
+        [MemoryPackOrder(0)]
+        public bool IsWin { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int TotalRounds { get; set; }
+
+        /// <summary>
+        /// 战斗持续时间(毫秒)
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public long Duration { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.IsWin = default;
+            this.TotalRounds = default;
+            this.Duration = default;
+
+            ObjectPool.Recycle(this);
+        }
+    }
+
     public static partial class Opcode
     {
         public const ushort RouterSync = 10701;
@@ -950,5 +1182,11 @@ namespace ET
         public const ushort M2C_Turn = 10728;
         public const ushort C2G_Logout = 10729;
         public const ushort G2C_Logout = 10730;
+        public const ushort C2M_StartCombat = 10731;
+        public const ushort M2C_StartCombat = 10732;
+        public const ushort C2M_CombatAction = 10733;
+        public const ushort M2C_CombatTurnStart = 10734;
+        public const ushort M2C_CombatActionResult = 10735;
+        public const ushort M2C_CombatEnd = 10736;
     }
 }

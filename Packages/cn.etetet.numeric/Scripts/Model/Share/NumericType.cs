@@ -61,5 +61,11 @@ namespace ET
 		public const int StunFinalPct = 10135;
 		public const int Yaw = 1014;
 		public const int Phase = 1015;
+		public const int Attack = 1016;
+		public const int AttackBase = 10161;
+		public const int AttackAdd = 10162;
+		public const int AttackPct = 10163;
+		public const int AttackFinalAdd = 10164;
+		public const int AttackFinalPct = 10165;
 	}
 }

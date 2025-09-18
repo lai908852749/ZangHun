@@ -52,3 +52,4 @@ Unity.sln.DotSettings.user
 
 Assets/HybridCLR*
 /UIElementsSchema
+*.meta

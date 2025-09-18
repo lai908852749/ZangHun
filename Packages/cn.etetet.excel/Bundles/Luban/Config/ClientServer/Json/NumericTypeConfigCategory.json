@@ -126,5 +126,13 @@
     "NoticeType": 0,
     "MaxNumericType": 0,
     "AffectNumeric": []
+  },
+  {
+    "Id": 1016,
+    "Name": "Attack",
+    "NeedSaveDB": 1,
+    "NoticeType": 0,
+    "MaxNumericType": 0,
+    "AffectNumeric": []
   }
 ]

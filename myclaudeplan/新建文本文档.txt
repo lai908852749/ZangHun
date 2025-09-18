@@ -5,3 +5,13 @@
 2.消息协议定义在F:\AA_MyET10Project\Packages\cn.etetet.wow\Proto
 
 仔细学习各个包中的proto文件，总结以下内容：文件命名规则、消息格式规范、消息命名规则、字段规范等内容。你发现了别的规律也可以告诉我。
+
+cd F:\AA_MyET10Project
+
+dotnet ./Bin/ET.App.dll --Processs=1 --SceneName=RobotCase --StartConfig=Localhost --Console=1
+
+dotnet ./Bin/ET.app.dll --Process=1 --SceneName=RobotCase --StartConfig=Localhost --Console --SingleThread
+
+CreateRobot --Num=1
+
+Case --Id=9

@@ -94,5 +94,11 @@
     "Name": "Phase",
     "MaxNumericType": 0,
     "AffectNumeric": []
+  },
+  {
+    "Id": 1016,
+    "Name": "Attack",
+    "MaxNumericType": 0,
+    "AffectNumeric": []
   }
 ]

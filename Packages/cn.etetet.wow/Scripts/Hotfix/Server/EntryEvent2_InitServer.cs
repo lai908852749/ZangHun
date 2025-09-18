@@ -30,6 +30,8 @@
                 root = rootRef;
                 root.AddComponent<ConsoleComponent>();
             }
+
+            root.AddComponent<RobotManagerComponent>();
         }
     }
 }

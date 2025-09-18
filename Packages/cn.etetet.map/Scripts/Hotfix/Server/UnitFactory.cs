@@ -23,7 +23,8 @@ namespace ET.Server
             if (unit.UnitType != UnitType.Player)
             {
                 // 地图配置数据覆盖UnitConfig中的数据
-                MapUnitConfig mapUnitConfig = MapUnitConfigCategory.Instance.Get((int)id);
+                // 注意：MapUnitConfig通常用于预设的地图单位，不是所有单位都有对应的MapUnitConfig
+                MapUnitConfig mapUnitConfig = MapUnitConfigCategory.Instance.GetOrDefault((int)id);
                 if (mapUnitConfig != null)
                 {
                     foreach ((int k, long v) in mapUnitConfig.KV)

@@ -19,6 +19,8 @@ namespace ET.Server
 
         public const int AchievementExceptionTest = 8;
 
+        public const int TurnBasedCombat = 9;
+
         public const int MaxCaseType = 10000;
     }
 }

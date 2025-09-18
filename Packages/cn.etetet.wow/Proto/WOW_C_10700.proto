@@ -202,3 +202,53 @@ message G2C_Logout // ISessionResponse
 	string Message = 3;
 }
 
+// ============= 回合制战斗相关消息 =============
+
+// ResponseType M2C_StartCombat
+message C2M_StartCombat // ILocationRequest
+{
+	int32 RpcId = 1;
+	repeated int64 MonsterIds = 2;  // 要战斗的怪物单位ID列表
+}
+
+message M2C_StartCombat // ILocationResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	repeated int64 TurnOrder = 4;   // 行动顺序（单位ID列表）
+}
+
+// 玩家战斗动作（单向消息，无需响应）
+message C2M_CombatAction // IMessage
+{
+	int32 ActionType = 1;  // 1=攻击 2=跳过
+	int64 TargetId = 2;    // 目标单位ID
+}
+
+// 战斗回合开始通知
+message M2C_CombatTurnStart // IMessage
+{
+	int64 ActorId = 1;      // 当前行动者ID
+	bool IsPlayerTurn = 2;  // 是否玩家回合
+	repeated int64 ValidTargets = 3;  // 可攻击目标列表
+}
+
+// 战斗动作结果
+message M2C_CombatActionResult // IMessage
+{
+	int64 AttackerId = 1;
+	int64 TargetId = 2;
+	int32 Damage = 3;
+	int32 RemainHp = 4;
+	bool IsDead = 5;
+}
+
+// 战斗结束
+message M2C_CombatEnd // IMessage
+{
+	bool IsWin = 1;
+	int32 TotalRounds = 2;
+	int64 Duration = 3;     // 战斗持续时间(毫秒)
+}
+
