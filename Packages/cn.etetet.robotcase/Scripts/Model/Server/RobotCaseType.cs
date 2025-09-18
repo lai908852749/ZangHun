@@ -29,6 +29,8 @@ namespace ET.Server
 
         public const int BuffImmunitySystem = 13;
 
+        public const int BuffEffectNodes = 14;
+
         public const int MaxCaseType = 10000;
     }
 }
