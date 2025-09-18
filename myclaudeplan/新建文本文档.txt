@@ -1,4 +1,4 @@
-根据F:\AA_MyET10Project\myclaudeplan的回合制技能系统测试用例计划.md开始编写第5个测试用例，可以参照测试用例规范：F:\AA_MyET10Project\myclaudeplan的测试用例编写规范.md。编写完成后执行。
+根据F:\AA_MyET10Project\myclaudeplan的回合制技能系统测试用例计划.md开始编写第6个测试用例，可以参照测试用例规范：F:\AA_MyET10Project\myclaudeplan的测试用例编写规范.md。编写完成后执行。
 
 1.因为玩家角色只有一个，所以在怪物回合判断玩家的hp数值是否大于0就可以
 2.消息协议定义在F:\AA_MyET10Project\Packages\cn.etetet.wow\Proto

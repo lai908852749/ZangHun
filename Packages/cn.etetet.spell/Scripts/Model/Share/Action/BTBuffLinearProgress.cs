@@ -35,6 +35,11 @@ namespace ET
         [LabelText("数值类型")]
         public int NumericType;
 
+        [BoxGroup("配置参数")]
+        [LabelText("是否为正数")]
+        [InfoBox("true=正数(治疗/增益), false=负数(伤害/减益)")]
+        public bool IsPositive = true;
+
         [BoxGroup("输出参数")]
         [BTOutput(typeof(int))]
         public string CurrentValue = "ProgressValue";
