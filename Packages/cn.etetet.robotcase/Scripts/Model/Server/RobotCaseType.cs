@@ -27,6 +27,8 @@ namespace ET.Server
 
         public const int BuffMutexGroup = 12;
 
+        public const int BuffImmunitySystem = 13;
+
         public const int MaxCaseType = 10000;
     }
 }
