@@ -25,7 +25,22 @@ namespace ET.Server
                     Priority = 100,
                     Category = BuffCategory.Damage,
                     Tags = BuffTag.DoT,
-                    Effects = new List<EffectNode>()  // 简化测试，暂时不添加复杂的Effect
+                    Effects = new List<EffectNode>
+                    {
+                        new EffectServerBuffTurnEnd
+                        {
+                            Children = new List<BTNode>
+                            {
+                                new BTDamage
+                                {
+                                    Caster = "Caster",
+                                    Target = "Unit",
+                                    Buff = "Buff",
+                                    Value = 10  // 每回合造成10点伤害
+                                }
+                            }
+                        }
+                    }
                 };
 
                 // Initialize effect dictionary
