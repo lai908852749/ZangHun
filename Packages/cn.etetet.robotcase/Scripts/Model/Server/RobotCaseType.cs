@@ -33,6 +33,8 @@ namespace ET.Server
 
         public const int BuffProgressiveEffects = 15;
 
+        public const int BuffSpread = 16;
+
         public const int MaxCaseType = 10000;
     }
 }

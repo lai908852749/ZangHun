@@ -20,22 +20,14 @@ namespace ET
         public int SpreadTarget = 1; // 1=敌人, 2=友军, 3=全部
 
         [BoxGroup("配置参数")]
-        [LabelText("传播半径")]
-        public float SpreadRadius = 5f;
-
-        [BoxGroup("配置参数")]
         [LabelText("最大目标数")]
         public int MaxTargets = 3;
 
         [BoxGroup("配置参数")]
         [LabelText("传播概率")]
         #if UNITY
-        [UnityEngine.Range(0f, 1f)]
+        [UnityEngine.Range(0, 100)]
         #endif
-        public float SpreadChance = 1f;
-
-        [BoxGroup("配置参数")]
-        [LabelText("减少层数")]
-        public bool ReduceStack = false;
+        public int SpreadChance = 100;
     }
 }
