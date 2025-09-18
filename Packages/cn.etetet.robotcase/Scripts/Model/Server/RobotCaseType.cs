@@ -35,6 +35,8 @@ namespace ET.Server
 
         public const int BuffSpread = 16;
 
+        public const int DamageAccumulation = 17;
+
         public const int MaxCaseType = 10000;
     }
 }
