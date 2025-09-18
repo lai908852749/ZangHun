@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ET
 {
@@ -58,6 +60,24 @@ namespace ET
             {
                 buff.ExpireTime = long.MaxValue;
             }
+            return buff;
+        }
+
+        // 扩展创建方法，支持回合制上下文
+        public static Buff CreateBuffWithContext(this BuffComponent self,
+            long casterId, int buffConfigId)
+        {
+            // 调用原有创建方法
+            long buffId = IdGenerater.Instance.GenerateId();
+            Buff buff = self.CreateBuff(buffId, buffConfigId, casterId);
+            BuffConfig config = BuffConfigCategory.Instance.Get(buffConfigId);
+
+            // 初始化回合制相关字段（具体值将在服务端设置）
+            buff.DurationType = config.DurationType;
+            buff.RemainTurn = config.TurnDuration;
+            buff.CreatedRound = 0; // 服务端会设置正确的值
+            buff.LastTriggerRound = 0;
+
             return buff;
         }
 

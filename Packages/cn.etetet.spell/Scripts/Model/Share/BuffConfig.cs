@@ -76,6 +76,35 @@ namespace ET
         [LabelText("广播客户端类型")]
         public NoticeType NoticeType;
 
+        // 持续时间配置
+        [LabelText("持续类型")]
+        public BuffDurationType DurationType = BuffDurationType.Auto;
+
+        [LabelText("持续回合")]
+        public int TurnDuration = 3;
+
+        [LabelText("回合Tick间隔")]
+        public int TurnTickInterval = 1;
+
+        // 优先级和分类配置
+        [LabelText("执行优先级")]
+        #if UNITY
+        [UnityEngine.Range(0, 999)]
+        #endif
+        public int Priority = 100; // 默认优先级100，越大越先执行
+
+        [LabelText("Buff类别")]
+        public BuffCategory Category = BuffCategory.Other;
+
+        [LabelText("互斥组")]
+        public BuffMutexGroup MutexGroup = BuffMutexGroup.None;
+
+        [LabelText("标签")]
+        public BuffTag Tags = BuffTag.None; // 使用Flags枚举支持多标签
+
+        [LabelText("覆盖低优先级")]
+        public bool OverrideLowerPriority = false;
+
         #if UNITY
         [UnityEngine.SerializeReference]
         #endif
@@ -115,6 +144,24 @@ namespace ET
         {
             this.effectDict.TryGetValue(typeof(T), out EffectNode effectNode);
             return effectNode as T;
+        }
+
+        // 辅助方法：检查是否有某个标签
+        public bool HasTag(BuffTag tag)
+        {
+            return (Tags & tag) == tag;
+        }
+
+        // 辅助方法：添加标签
+        public void AddTag(BuffTag tag)
+        {
+            Tags |= tag;
+        }
+
+        // 辅助方法：移除标签
+        public void RemoveTag(BuffTag tag)
+        {
+            Tags &= ~tag;
         }
     }
 

@@ -54,5 +54,24 @@ namespace ET
         
         [LabelText("AI删除")]
         AIRemove = 16,
+
+        // 回合制相关的新标记
+        [LabelText("回合数耗尽删除")]
+        TurnExpiredRemove = 100,
+
+        [LabelText("战斗结束删除")]
+        CombatEndRemove = 101,
+
+        [LabelText("达到回合上限删除")]
+        RoundLimitRemove = 102,
+
+        [LabelText("被免疫阻挡")]
+        ImmunityBlocked = 103,
+
+        [LabelText("被互斥替换")]
+        MutexReplaced = 104,
+
+        [LabelText("被高优先级覆盖")]
+        PriorityOverridden = 105,
     }
 }
