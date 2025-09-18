@@ -37,6 +37,8 @@ namespace ET.Server
 
         public const int DamageAccumulation = 17;
 
+        public const int HealAccumulation = 18;
+
         public const int MaxCaseType = 10000;
     }
 }
