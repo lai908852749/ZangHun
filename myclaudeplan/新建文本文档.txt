@@ -1,10 +1,3 @@
-根据F:\AA_MyET10Project\myclaudeplan的回合制技能系统测试用例计划.md开始编写第6个测试用例，可以参照测试用例规范：F:\AA_MyET10Project\myclaudeplan的测试用例编写规范.md。编写完成后执行。
-
-1.因为玩家角色只有一个，所以在怪物回合判断玩家的hp数值是否大于0就可以
-2.消息协议定义在F:\AA_MyET10Project\Packages\cn.etetet.wow\Proto
-
-仔细学习各个包中的proto文件，总结以下内容：文件命名规则、消息格式规范、消息命名规则、字段规范等内容。你发现了别的规律也可以告诉我。
-
 cd F:\AA_MyET10Project
 
 dotnet ./Bin/ET.App.dll --Processs=1 --SceneName=RobotCase --StartConfig=Localhost --Console=1
@@ -16,5 +9,33 @@ CreateRobot --Num=1
 Case --Id=9
 
 
-● 我看到有很多 Effect 类，但可能没有对应的处理器。让我先尝试一个更简单的方法 - 不使用复杂的 EffectNode，而是创建一个基本的测试
-  Buff，不需要任何特殊效果。让我修改测试用例：
+
+BTPhaseAddHandler为啥要加入AOI？PhaseHelper也在AOI。
+TriggerCombatEffect如何实现的？
+
+
+新增一个受到伤害的节点（可能被回避）
+在同一时间节点，如何处理互斥组等效果逻辑，参照回合开始和结束？看看onturnstart和onturnend。我需要再思考一下。
+
+onturnstart和onturnend的逻辑是否应提取为公用方法，在所有effectnode都要判断？
+
+铁皮卡buff：给玩家加个buff了，有以下效果：
+EffectNode为回合开始时执行：加一个钢甲buff，层数为8。加一个毒免疫buff，持续3回合。
+                                                         钢甲buff：根据传入的参数设置层数，在EffectNode为被攻击时时执行，让伤害为1，层数-1
+
+战斗环境buff：进入该地图时添加到玩家身上了，有以下效果：
+EffectNode为回合开始时执行：给玩家上中毒buff。
+
+战斗开始，EffectNode为回合开始，收集所有要在这个时间点执行的buff，根据等级，互斥啥的，进行排序。毒免疫等级比中毒高，所以移除中毒buff。
+
+
+下面有一个真实伤害的技能，怪物释放的。
+其他时间节点：也要收集所有要在这个时间点执行的buff，根据等级，互斥啥的，进行排序。毒免疫等级比中毒高，所以移除中毒buff。
+
+EffectNode为执行时机，BTRoot
+
+
+
+
+1.我想要改造buff系统：免疫这种就是一个Numeric，Buff 控制Numeric即可。在buff表配置互斥字段，优先级字段等，可以在buff组件把这些字段的buff归类一下，方便查找。请告诉我应该怎么做
+

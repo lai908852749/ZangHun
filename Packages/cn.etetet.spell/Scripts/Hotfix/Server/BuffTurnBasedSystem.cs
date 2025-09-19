@@ -398,7 +398,8 @@ namespace ET.Server
         {
             return buff != null && !buff.IsDisposed &&
                    (buff.DurationType == BuffDurationType.Turn ||
-                    buff.DurationType == BuffDurationType.Hybrid);
+                    buff.DurationType == BuffDurationType.Hybrid ||
+                    (buff.DurationType == BuffDurationType.CombatOnly && self.IsInCombat()));
         }
 
         /// <summary>
@@ -540,6 +541,82 @@ namespace ET.Server
 
                 BTDispatcher.Instance.Handle(effect, env);
             }
+        }
+
+        #endregion
+
+        #region 战斗状态管理
+
+        /// <summary>
+        /// 检查是否在战斗中
+        /// </summary>
+        public static bool IsInCombat(this BuffComponent self)
+        {
+            Unit unit = self.GetParent<Unit>();
+            if (unit == null) return false;
+
+            // 尝试获取战斗组件
+            TurnBasedCombatComponent combatComponent = unit.GetComponent<TurnBasedCombatComponent>();
+            return combatComponent != null && combatComponent.InCombat;
+        }
+
+        /// <summary>
+        /// 战斗开始时的处理
+        /// </summary>
+        public static void OnCombatStart(this BuffComponent self)
+        {
+            Log.Debug($"Combat started, activating CombatOnly buffs for unit {self.GetParent<Unit>()?.Id}");
+
+            // 激活所有CombatOnly类型的Buff
+            foreach (var child in self.Children.Values)
+            {
+                if (child is Buff buff && buff.DurationType == BuffDurationType.CombatOnly)
+                {
+                    // CombatOnly Buff在战斗开始时激活，但不触发OnAdd效果（因为已经触发过了）
+                    Log.Debug($"Activating CombatOnly buff: {buff.ConfigId}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 战斗结束时的处理
+        /// </summary>
+        public static void OnCombatEnd(this BuffComponent self)
+        {
+            Log.Debug($"Combat ended, removing CombatOnly buffs for unit {self.GetParent<Unit>()?.Id}");
+
+            // 收集需要移除的CombatOnly Buff
+            List<Buff> combatOnlyBuffs = new();
+            foreach (var child in self.Children.Values)
+            {
+                if (child is Buff buff && buff.DurationType == BuffDurationType.CombatOnly)
+                {
+                    combatOnlyBuffs.Add(buff);
+                }
+            }
+
+            // 移除所有CombatOnly类型的Buff
+            foreach (var buff in combatOnlyBuffs)
+            {
+                Log.Debug($"Removing CombatOnly buff: {buff.ConfigId}");
+                BuffHelper.RemoveBuff(buff, BuffFlags.CombatEndRemove);
+            }
+        }
+
+        /// <summary>
+        /// 获取所有CombatOnly类型的Buff
+        /// </summary>
+        public static List<Buff> GetCombatOnlyBuffs(this BuffComponent self)
+        {
+            List<Buff> result = new();
+            foreach (var child in self.Children.Values)
+            {
+                if (child is Buff buff && buff.DurationType == BuffDurationType.CombatOnly)
+                {
+                    result.Add(buff);
+                }
+            }
+            return result;
         }
 
         #endregion

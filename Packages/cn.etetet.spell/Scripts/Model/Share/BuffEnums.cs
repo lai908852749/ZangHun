@@ -87,7 +87,8 @@ namespace ET
         Time = 0,      // 时间制（默认）
         Turn = 1,      // 回合制
         Permanent = 2, // 永久
-        Hybrid = 3     // 混合模式（同时支持时间和回合）
+        Hybrid = 3,    // 混合模式（同时支持时间和回合）
+        CombatOnly = 4 // 仅战斗期间（战斗开始时激活，战斗结束时移除）
     }
 
     /// <summary>
